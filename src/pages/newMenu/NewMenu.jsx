@@ -3,6 +3,7 @@ import "./newMenu.css";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 
+// 动效
 const animatedComponents = makeAnimated();
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
@@ -56,6 +57,7 @@ class NewMenu extends Component {
       status: "",
       shelf_status: "",
       support_list: null,
+      // TODO 后续改为api获取
       colourOptions: [
         { value: 'a', label: '堂食' },
         { value: 'b', label: '外卖' },
@@ -104,11 +106,6 @@ class NewMenu extends Component {
     })
   }
   // 赋值支持的业务类型
-  // handleMenuSupport = (e) => {
-  //   this.setState({
-  //     support_list: e.target.value
-  //   })
-  // }
   handleMenuSupport = support_list => {
     this.setState({ support_list });
     console.log(`Option selected:`, support_list);
@@ -117,11 +114,6 @@ class NewMenu extends Component {
   // 提交数据
   onSubmit = (e) => {
     e.preventDefault()
-
-    // if (!text) {
-    //   alert('Please add a task')
-    //   return
-    // }
 
     addItem(
       this.state.name,
@@ -132,16 +124,6 @@ class NewMenu extends Component {
       this.state.support_list
       )
   }
-
-  // const colourOptions2 = [
-  //   { value: 'a', label: '普通菜' },
-  //   { value: 'b', label: '套餐' },
-  //   { value: 'c', label: '线下临时菜' },
-  //   { value: 'd', label: '线下临时套餐' },
-  //   { value: 'e', label: '线下打包盒' },
-  //   { value: 'f', label: '打包袋' },
-  //   { value: 'g', label: '时价菜' }
-  // ]
 
   render () {
     return (
