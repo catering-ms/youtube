@@ -12,7 +12,11 @@ import {
   ChatBubbleOutline,
   WorkOutline,
   Report,
+  // PeopleOutlineIcon,
+
 } from "@material-ui/icons";
+// import GroupsIcon from '@mui/icons-material/Groups';
+// import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -30,11 +34,11 @@ export default function Sidebar() {
             </Link>
             <li className="sidebarListItem">
               <Timeline className="sidebarIcon" />
-              Analytics
+              报表中心
             </li>
             <li className="sidebarListItem">
               <TrendingUp className="sidebarIcon" />
-              Sales
+              销售
             </li>
           </ul>
         </div>
@@ -44,56 +48,59 @@ export default function Sidebar() {
             <Link to="/users" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
-                Users
+                原料管理
               </li>
             </Link>
             <Link to="/products" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
-                Products
+                菜单管理
               </li>
             </Link>
             <li className="sidebarListItem">
               <AttachMoney className="sidebarIcon" />
-              Transactions
+              交易中心
             </li>
-            <li className="sidebarListItem">
+            {/* <li className="sidebarListItem">
               <BarChart className="sidebarIcon" />
               Reports
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Notifications</h3>
+          <h3 className="sidebarTitle">合作中心</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem">
               <MailOutline className="sidebarIcon" />
-              Mail
+              小程序
             </li>
             <li className="sidebarListItem">
               <DynamicFeed className="sidebarIcon" />
-              Feedback
+              外卖配送
             </li>
             <li className="sidebarListItem">
               <ChatBubbleOutline className="sidebarIcon" />
-              Messages
             </li>
           </ul>
         </div>
         <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Staff</h3>
+          <h3 className="sidebarTitle">账户中心</h3>
           <ul className="sidebarList">
+          <li className="sidebarListItem">
+              <WorkOutline className="sidebarIcon" />
+              供应链
+            </li>
             <li className="sidebarListItem">
               <WorkOutline className="sidebarIcon" />
-              Manage
+              员工
             </li>
             <li className="sidebarListItem">
               <Timeline className="sidebarIcon" />
-              Analytics
+              会员
             </li>
             <li className="sidebarListItem">
               <Report className="sidebarIcon" />
-              Reports
+              加盟
             </li>
           </ul>
         </div>

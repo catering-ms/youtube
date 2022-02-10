@@ -29,3 +29,11 @@
     color: red;
     cursor: pointer;
 }
+
+
+.switchStatus {
+    position: absolute;
+    left: -14rem;
+    top: 0;
+    margin: 0.75rem;
+  }
