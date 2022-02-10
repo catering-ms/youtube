@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import "./newMenu.css";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
-// import { useState } from 'react'
 
 const animatedComponents = makeAnimated();
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
   // 新增项目
-  const addItem = async (name, alias) => {
+  const addItem = async (name, alias, category, status, shelf_status, support_list) => {
     try {
       // 打包数据为json
       const obj = {
         "name": name,
-        "alias": alias
+        "alias": alias,
+        "category": category,
+        "status": status,
+        "shelf_status": shelf_status,
+        "support_list": support_list
       }
       const payload = JSON.stringify(obj)
       const res = await fetch(apiHost + '/newMenu',
@@ -49,6 +52,10 @@ class NewMenu extends Component {
     this.state = {
       name: "",
       alias: "",
+      category: "",
+      status: "",
+      shelf_status: "",
+      support_list: null,
       colourOptions: [
         { value: 'a', label: '堂食' },
         { value: 'b', label: '外卖' },
@@ -69,6 +76,44 @@ class NewMenu extends Component {
       alias: e.target.value
     })
   }
+
+  // 赋值菜品别名
+  handleMenuAliasName = (e) => {
+    this.setState({
+      alias: e.target.value
+    })
+  }
+  // 赋值菜品类型
+  handleMenuCategory = (e) => {
+    this.setState({
+      category: e.target.value
+    })
+  }
+
+  // 赋值状态
+  handleMenuStatus = (e) => {
+    this.setState({
+      status: e.target.value
+    })
+  }
+  
+  // 赋值状态
+  handleMenuShelfStatus = (e) => {
+    this.setState({
+      shelf_status: e.target.value
+    })
+  }
+  // 赋值支持的业务类型
+  // handleMenuSupport = (e) => {
+  //   this.setState({
+  //     support_list: e.target.value
+  //   })
+  // }
+  handleMenuSupport = support_list => {
+    this.setState({ support_list });
+    console.log(`Option selected:`, support_list);
+  };
+
   // 提交数据
   onSubmit = (e) => {
     e.preventDefault()
@@ -80,10 +125,13 @@ class NewMenu extends Component {
 
     addItem(
       this.state.name,
-      this.state.alias
+      this.state.alias,
+      this.state.category,
+      this.state.status,
+      this.state.shelf_status,
+      this.state.support_list
       )
   }
-
 
   // const colourOptions2 = [
   //   { value: 'a', label: '普通菜' },
@@ -128,32 +176,39 @@ class NewMenu extends Component {
         <div className="addProductItem">
           <label>菜品类型</label>
           <div className="newUserGender">
-            <input type="radio" name="gender" id="male" value="male" />
+            <input 
+              type="radio" 
+              name="gender" 
+              id="male" 
+              value="a"
+              value={this.state.name}
+              onChange={this.handleMenuName} 
+            />
             <label for="male">普通菜</label>
-            <input type="radio" name="gender" id="female" value="female" />
+            <input type="radio" name="gender" id="female" value="b" onChange={this.handleMenuCategory}/>
             <label for="female">套餐</label>
-            <input type="radio" name="gender" id="other" value="other" />
+            <input type="radio" name="gender" id="other" value="c" onChange={this.handleMenuCategory}/>
             <label for="other">线下临时菜</label>
-            <input type="radio" name="gender" id="other" value="other" />
+            <input type="radio" name="gender" id="other" value="d" onChange={this.handleMenuCategory}/>
             <label for="other">线下打包盒</label>
-            <input type="radio" name="gender" id="other" value="other" />
+            <input type="radio" name="gender" id="other" value="e" onChange={this.handleMenuCategory}/>
             <label for="other">时价菜</label>
-            <input type="radio" name="gender" id="other" value="other" />
+            <input type="radio" name="gender" id="other" value="f" onChange={this.handleMenuCategory}/>
             <label for="other">线下临时套餐</label>
-            <input type="radio" name="gender" id="other" value="other" />
+            <input type="radio" name="gender" id="other" value="g" onChange={this.handleMenuCategory}/>
             <label for="other">打包袋</label>
           </div>
         </div>
         <div className="addProductItem">
           <label>售卖状态</label>
-          <select name="active" id="active">
+          <select name="active" id="active" onChange={this.handleMenuStatus}>
             <option value="yes">启用</option>
             <option value="no">禁用</option>
           </select>
         </div>
         <div className="addProductItem">
           <label>线上上架/下架</label>
-          <select name="active" id="active">
+          <select name="active" id="active" onChange={this.handleMenuShelfStatus}>
             <option value="yes">上架</option>
             <option value="no">下架</option>
           </select>
@@ -166,6 +221,8 @@ class NewMenu extends Component {
             defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
             isMulti
             options={this.state.colourOptions}
+            value={this.state.support_list}
+            onChange={this.handleMenuSupport}
           />
         </div>
         <input type='submit' value='保存' className='addProductButton' />
