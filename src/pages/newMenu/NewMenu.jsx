@@ -8,7 +8,7 @@ const animatedComponents = makeAnimated();
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
   // 新增项目
-  const addItem = async (name, alias, category, status, shelf_status, support_list) => {
+  const addItem = async (name, alias, category, status, shelf_status, support_list, price, vip_price) => {
     try {
       // 打包数据为json
       const obj = {
@@ -17,10 +17,13 @@ const apiHost = process.env.REACT_APP_API_HOST
         "category": category,
         "status": status,
         "shelf_status": shelf_status,
-        "support_list": support_list
+        "support_list": support_list,
+        "price": price,
+        "vip_price": vip_price
+
       }
       const payload = JSON.stringify(obj)
-      const res = await fetch(apiHost + '/newMenu',
+      const res = await fetch(apiHost + '/api/v1/menu/new',
         {
         mode: 'cors',
         method: 'POST',
@@ -57,6 +60,9 @@ class NewMenu extends Component {
       status: "",
       shelf_status: "",
       support_list: null,
+      price: 0.0,
+      vip_price: 0.0,
+
       // TODO 后续改为api获取
       colourOptions: [
         { value: 'a', label: '堂食' },
@@ -111,6 +117,18 @@ class NewMenu extends Component {
     console.log(`Option selected:`, support_list);
   };
 
+  // 价格赋值状态
+  handleMenuPrice = (e) => {
+    this.setState({
+      price: e.target.value
+    })
+  }
+  // 会员价格赋值状态
+  handleMenuVipPrice = (e) => {
+    this.setState({
+      vip_price: e.target.value
+    })
+  }
   // 提交数据
   onSubmit = (e) => {
     e.preventDefault()
@@ -121,7 +139,9 @@ class NewMenu extends Component {
       this.state.category,
       this.state.status,
       this.state.shelf_status,
-      this.state.support_list
+      this.state.support_list,
+      this.state.price,
+      this.state.vip_price
       )
   }
 
@@ -153,6 +173,24 @@ class NewMenu extends Component {
             placeholder="二两粉" 
             value={this.state.alias}
             onChange={this.handleMenuAliasName}
+          />
+        </div>
+        <div className="addProductItem">
+          <label>菜品价格</label>
+          <input 
+            type="text" 
+            placeholder="¥12.00" 
+            value={this.state.price}
+            onChange={this.handleMenuPrice}
+          />
+        </div>
+        <div className="addProductItem">
+          <label>菜品会员价格</label>
+          <input 
+            type="text" 
+            placeholder="¥11.00" 
+            value={this.state.vip_price}
+            onChange={this.handleMenuVipPrice}
           />
         </div>
         <div className="addProductItem">
