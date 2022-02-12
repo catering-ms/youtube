@@ -9,13 +9,26 @@ import NewItem from "../../components/new/NewItem"
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
 
-  // Fetch menu list
-  const fetchMenuList = async () => {
-    const res = await fetch(apiHost + '/api/v1/menu/all')
-    const data = await res.json()
-    console.log("data===>", data)
-    return data
-  }
+// Fetch menu list
+const fetchMenuList = async () => {
+  const res = await fetch(apiHost + '/api/v1/menu/all')
+  const data = await res.json()
+  console.log("data===>", data)
+  return data
+}
+
+const deleteTask = async (id) => {
+  const res = await fetch(apiHost + '/api/v1/menu/delete/' + id, {
+    method: 'DELETE',
+  })
+
+  //We should control the response status to decide if we will change the state or not.
+  // if res.status === 200 {
+  //   return true
+  // }
+    // ? setData(data.filter((task) => task.id !== id))
+    // : alert('Error Deleting This Task')
+}
 
 export default function ProductList() {
 
@@ -33,13 +46,14 @@ export default function ProductList() {
 
   // const data = productInfo.data
   console.log("row data->", data)
-  // const handleDelete = (id) => {
-  //   setData(data.filter((item) => item.id !== id));
-  // };
+  const handleDelete = (id) => {
+    setData(data.filter((item) => item.id !== id));
+    deleteTask(id)
+  };
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
   const columns = [
-    // { field: "id", headerName: "序号", width:120 },
+    { field: "id", headerName: "序号", width:120 },
     // {
     //   field: "action2",
     //   headerName: "启用/禁用",
@@ -53,19 +67,19 @@ export default function ProductList() {
     //     );
     //   },
     // },
-    // {
-    //   field: "product",
-    //   headerName: "图片",
-    //   width: 200,
-    //   renderCell: (params) => {
-    //     return (
-    //       <div className="productListItem">
-    //         <img className="productListImg" src={params.row.img} alt="" />
-    //         {params.row.name}
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      field: "product",
+      headerName: "图片",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            <img className="productListImg" src={params.row.img_url} alt="" />
+            {params.row.name}
+          </div>
+        );
+      },
+    },
     { field: "brand", headerName: "品牌", width: 200 },
     // { field: "aa", headerName: "规格", width: 200 },
     {
@@ -93,24 +107,24 @@ export default function ProductList() {
       headerName: "线上菜品分类",
       width: 200,
     },
-    // {
-    //   field: "action",
-    //   headerName: "操作",
-    //   width: 150,
-    //   renderCell: (params) => {
-    //     return (
-    //       <>
-    //         <Link to={"/product/" + params.row.id}>
-    //           <button className="productListEdit">Edit</button>
-    //         </Link>
-    //         <DeleteOutline
-    //           className="productListDelete"
-    //           onClick={() => handleDelete(params.row.id)}
-    //         />
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      field: "action",
+      headerName: "操作",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/product/" + params.row.id}>
+              <button className="productListEdit">Edit</button>
+            </Link>
+            <DeleteOutline
+              className="productListDelete"
+              onClick={() => handleDelete(params.row.id)}
+            />
+          </>
+        );
+      },
+    },
   ];
 
   return (

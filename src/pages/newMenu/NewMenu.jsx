@@ -8,7 +8,7 @@ const animatedComponents = makeAnimated();
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
   // 新增项目
-  const addItem = async (name, alias, category, status, shelf_status, support_list, price, vip_price) => {
+  const addItem = async (name, alias, category, status, shelf_status, support_list, price, vip_price, brand) => {
     try {
       // 打包数据为json
       const obj = {
@@ -16,10 +16,11 @@ const apiHost = process.env.REACT_APP_API_HOST
         "alias": alias,
         "category": category,
         "status": status,
+        "brand": brand, 
         "shelf_status": shelf_status,
         "support_list": support_list,
         "price": price,
-        "vip_price": vip_price
+        "vip_price": vip_price,
 
       }
       const payload = JSON.stringify(obj)
@@ -58,10 +59,12 @@ class NewMenu extends Component {
       alias: "",
       category: "",
       status: "",
+      branhd: "",
       shelf_status: "",
       support_list: null,
       price: 0.0,
       vip_price: 0.0,
+      brand: "",
 
       // TODO 后续改为api获取
       colourOptions: [
@@ -129,6 +132,13 @@ class NewMenu extends Component {
       vip_price: e.target.value
     })
   }
+
+    // 品牌
+    handleMenuBrand = (e) => {
+      this.setState({
+        brand: e.target.value
+      })
+    }
   // 提交数据
   onSubmit = (e) => {
     e.preventDefault()
@@ -141,7 +151,8 @@ class NewMenu extends Component {
       this.state.shelf_status,
       this.state.support_list,
       this.state.price,
-      this.state.vip_price
+      this.state.vip_price,
+      this.state.brand
       )
   }
 
@@ -173,6 +184,15 @@ class NewMenu extends Component {
             placeholder="二两粉" 
             value={this.state.alias}
             onChange={this.handleMenuAliasName}
+          />
+        </div>
+        <div className="addProductItem">
+          <label>菜品品牌</label>
+          <input 
+            type="text" 
+            placeholder="黄李记" 
+            value={this.state.brand}
+            onChange={this.handleMenuBrand}
           />
         </div>
         <div className="addProductItem">
