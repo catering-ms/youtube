@@ -84,7 +84,7 @@ export default function ProductList() {
     // { field: "aa", headerName: "规格", width: 200 },
     {
       field: "status",
-      headerName: "Status",
+      headerName: "状态",
       width: 120,
     },
     {
