@@ -37,6 +37,11 @@ const apiHost = process.env.REACT_APP_API_HOST
         body: payload,
       })
       if (!res.ok) {
+
+        if (res.status === 409) {
+          const message = `菜单名称重复`;
+          throw new Error(message);
+        }
         const message = `An error has occured: ${res.status} - ${res.statusText}`;
         throw new Error(message);
       }

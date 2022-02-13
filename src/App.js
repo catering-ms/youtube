@@ -10,6 +10,7 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import NewMenu from "./pages/newMenu/NewMenu";
+import MenuDetail from "./pages/menuDetail/MenuDetail";
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
           </Route>
           <Route path="/product/:productId">
             <Product />
+          </Route>
+          <Route path="/menuDetail/:productId" render={(props) => (
+            <MenuDetail menuId={props.match.params.productId}/>
+          )}>
           </Route>
           <Route path="/newproduct">
             <NewProduct />
