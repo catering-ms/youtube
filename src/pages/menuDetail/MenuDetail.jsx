@@ -8,7 +8,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
-import SearchInput, {createFilter} from 'react-search-input'
+// import SearchInput, {createFilter} from 'react-search-input'
 
 // 动效
 const animatedComponents = makeAnimated();
@@ -32,12 +32,57 @@ const fetchAvailableIngredList = async () => {
     return data
   }
 
+// 新增项目
+const addItem = async (menu_id, liquid, solid) => {
+try {
+    // 打包数据为json
+    const obj = {
+    "liquid": liquid,
+    "solid": solid,
+    "menu_id": menu_id
+    }
+    const payload = JSON.stringify(obj)
+    const res = await fetch(apiHost + '/api/v1/ingred/bind',
+    {
+    mode: 'cors',
+    method: 'POST',
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    },
+    credentials: 'same-origin', // you need to add this line
+    body: payload,
+    })
+    if (!res.ok) {
+
+    if (res.status === 409) {
+        const message = `成份已经绑定`;
+        throw new Error(message);
+    }
+    const message = `An error has occured: ${res.status} - ${res.statusText}`;
+    throw new Error(message);
+    }
+    
+
+    const data =  await res.json()
+    console.log("return -->", data)
+} catch (err) {
+    console.log("err", err)
+    alert(err.message);
+}
+}
+
 export default function MenuDetail(props) {
 
     console.log("props", props)
     const [usingIngred, setUsingIngred] = useState([]);
     const [ingredImgUrl, setIngredImgUrl] = useState([]);
     const [availableIngred, setAvailableIngred] = useState([]);
+
+    const [liquid, setLiquid] = useState([]);
+    const [solid, setSolid] = useState([]);
+
     useEffect(() => {
         const getUsingIngred = async () => {
             const tasksFromServer = await fetchMenuDetail(props.menuId)
@@ -58,6 +103,31 @@ export default function MenuDetail(props) {
         setUsingIngred(usingIngred.filter((item) => item.id !== id));
         // deleteTask(id) // 执行删除动作
         };
+    // 勾选液体配料
+    const handleAddLiquid = (e) => {
+        // this.setState({
+        // liquid: e.target.value
+        // })
+        console.log("e --->", e)
+        // setLiquid(e.target.value)
+    };
+    // 勾选固体配料
+    const handleAddSolid = (e) => {
+        // setState({
+        // solid: e.target.value
+        // })
+        setSolid(e)
+    };
+
+    const onSubmit = (e) => {
+        console.log("submit now--->")
+        e.preventDefault()
+        addItem(
+        props.menuId,
+        liquid,
+        solid
+        )
+      };
 
     //   配料表定义
     const columns = [
@@ -125,7 +195,7 @@ export default function MenuDetail(props) {
           </div>
       </div>
       <div className="productBottom">
-          <form className="productForm">
+          <form className="productForm" onSubmit={onSubmit}>
               <div className="productFormLeft">
                   <label>Product Name</label>
                   <input type="text" placeholder="Apple AirPod" />
@@ -159,8 +229,8 @@ export default function MenuDetail(props) {
                     // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
                     isMulti
                     options={availableIngred}
-                    // value={this.state.support_list}
-                    // onChange={this.handleMenuSupport}
+                    value={solid}
+                    onChange={handleAddSolid}
                 />
             </div>
             <div className="productFormLeft">
@@ -171,8 +241,8 @@ export default function MenuDetail(props) {
                     // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
                     isMulti
                     options={availableIngred}
-                    // value={this.state.support_list}
-                    // onChange={this.handleMenuSupport}
+                    value={liquid}
+                    onChange={handleAddLiquid}
                 />
             </div>
 
@@ -185,7 +255,7 @@ export default function MenuDetail(props) {
                     </div>
                 )
                 })} */}
-            <input type='submit' value='保存' className='productButton' />
+            <input type='submit' value='添加' className='productButton'/>
           </form>
       </div>
       {/* <div className="productBottom"> */}
