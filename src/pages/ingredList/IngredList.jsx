@@ -42,29 +42,8 @@ export default function IngredList() {
   };
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-//   {
-//     "id": 12,
-//     "name": "酱油",
-//     "unit": "毫升/ML",
-//     "unit_price": 50,
-//     "serving_size": 10
-// },
-
   const columns = [
     { field: "id", headerName: "序号", width:120 },
-    // {
-    //   field: "action2",
-    //   headerName: "启用/禁用",
-    //   width: 150,
-    //   renderCell: (params) => {
-    //     return (
-    //       <>
-    //         <div className="switchStatus">
-    //         </div>
-    //       </>
-    //     );
-    //   },
-    // },
     {
       field: "product",
       headerName: "图片",
@@ -112,7 +91,7 @@ export default function IngredList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/menuDetail/" + params.row.id}>
+            <Link to={"/ingredDetail/" + params.row.id}>
               <button className="productListEdit">Edit</button>
             </Link>
             <DeleteOutline

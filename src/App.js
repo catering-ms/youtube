@@ -13,6 +13,8 @@ import NewMenu from "./pages/newMenu/NewMenu";
 import MenuDetail from "./pages/menuDetail/MenuDetail";
 import IngredList from "./pages/ingredList/IngredList";
 import NewIngred from "./pages/newIngred/NewIngred";
+import IngredDetail from "./pages/ingredDetail/IngredDetail"
+
 
 function App() {
   return (
@@ -53,6 +55,11 @@ function App() {
           <Route path="/menuDetail/:productId" render={(props) => (
             <MenuDetail menuId={props.match.params.productId}/>
           )}>
+          </Route>
+          <Route path="/ingredDetail/:productId" render={(props) => (
+            <IngredDetail menuId={props.match.params.productId}/>
+          )}>
+
           </Route>
           <Route path="/newproduct">
             <NewProduct />

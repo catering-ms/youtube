@@ -1,61 +1,38 @@
 import { Link } from "react-router-dom";
-import "./MenuDetail.css";
+import "./IngredDetail.css";
 import Chart from "../../components/chart/Chart"
 import {productData} from "../../dummyData"
 import { Publish } from "@material-ui/icons";
 import { useState, useEffect} from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated';
-import SearchInput, {createFilter} from 'react-search-input'
-
-// 动效
-const animatedComponents = makeAnimated();
 
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
 
 // Fetch menu list
 const fetchMenuDetail = async (id) => {
-    const res = await fetch(apiHost + '/api/v1/menu/detail/' + id)
+    const res = await fetch(apiHost + '/api/v1/ingred/detail/' + id)
     const data = await res.json()
     console.log("data===>", data)
     return data
   }
 
-// Fetch ingred list
-const fetchAvailableIngredList = async () => {
-    const res = await fetch(apiHost + '/api/v1/ingred/avaiable')
-    const data = await res.json()
-    console.log("data===>", data)
-    return data
-  }
-
-export default function MenuDetail(props) {
+export default function IngredDetail(props) {
 
     console.log("props", props)
-    const [usingIngred, setUsingIngred] = useState([]);
-    const [ingredImgUrl, setIngredImgUrl] = useState([]);
-    const [availableIngred, setAvailableIngred] = useState([]);
+    const [data, setData] = useState([]);
     useEffect(() => {
-        const getUsingIngred = async () => {
+        const getTasks = async () => {
             const tasksFromServer = await fetchMenuDetail(props.menuId)
-            setUsingIngred(tasksFromServer.ingred)
-            setIngredImgUrl(tasksFromServer.img_url)
-        }
-        getUsingIngred()
-
-        const getIngredAvailableList = async () => {
-            const tasksFromServer = await fetchAvailableIngredList()
-            setAvailableIngred(tasksFromServer)
+            setData(tasksFromServer.ingred)
         }
 
-        getIngredAvailableList()
+        getTasks()
         }, [])
 
     const handleDelete = (id) => {
-        setUsingIngred(usingIngred.filter((item) => item.id !== id));
+        setData(data.filter((item) => item.id !== id));
         // deleteTask(id) // 执行删除动作
         };
 
@@ -86,11 +63,17 @@ export default function MenuDetail(props) {
         },
     ];
 
-  console.log("data from server", usingIngred)
+  console.log("data from server", data)
+//   const fakeData = [
+//     {
+//       "id": 1,
+//       "name": "a"
+//     }
+//   ];
   return (
     <div className="product">
       <div className="productTitleContainer">
-        <h1 className="productTitle">菜品详情</h1>
+        <h1 className="productTitle">配料详情</h1>
         <Link to="/newproduct">
           <button className="productAddButton">Create</button>
         </Link>
@@ -101,7 +84,7 @@ export default function MenuDetail(props) {
           </div>
           <div className="productTopRight">
               <div className="productInfoTop">
-                  <img src={ingredImgUrl} alt="" className="productInfoImg" />
+                  <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="productInfoImg" />
                   <span className="productName">二两螺蛳粉</span>
               </div>
               <div className="productInfoBottom">
@@ -127,7 +110,7 @@ export default function MenuDetail(props) {
       <div className="productBottom">
           <form className="productForm">
               <div className="productFormLeft">
-                  <label>Product Name</label>
+                  <label>配料信息详情</label>
                   <input type="text" placeholder="Apple AirPod" />
                   <label>In Stock</label>
                   <select name="inStock" id="idStock">
@@ -142,7 +125,7 @@ export default function MenuDetail(props) {
               </div>
               <div className="productFormRight">
                   <div className="productUpload">
-                      <img src={ingredImgUrl} alt="" className="productUploadImg" />
+                      <img src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="productUploadImg" />
                       <label for="file">
                           <Publish/>
                       </label>
@@ -150,42 +133,6 @@ export default function MenuDetail(props) {
                   </div>
                   <button className="productButton">Update</button>
               </div>
-
-              <div className="productFormLeft">
-                <label>固态配料</label>
-                <Select 
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
-                    // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
-                    isMulti
-                    options={availableIngred}
-                    // value={this.state.support_list}
-                    // onChange={this.handleMenuSupport}
-                />
-            </div>
-            <div className="productFormLeft">
-                <label>液态配料</label>
-                <Select 
-                    closeMenuOnSelect={false}
-                    components={animatedComponents}
-                    // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
-                    isMulti
-                    options={availableIngred}
-                    // value={this.state.support_list}
-                    // onChange={this.handleMenuSupport}
-                />
-            </div>
-
-            {/* <SearchInput className="search-input"  />  */}
-                {/* {filteredEmails.map(email => {
-                return (
-                    <div className="mail" key={email.id}>
-                    <div className="from">{email.user.name}</div>
-                    <div className="subject">{email.subject}</div>
-                    </div>
-                )
-                })} */}
-            <input type='submit' value='保存' className='productButton' />
           </form>
       </div>
       {/* <div className="productBottom"> */}
@@ -194,7 +141,7 @@ export default function MenuDetail(props) {
         </div> */}
         {/* </div> */}
         <DataGrid
-                rows={usingIngred}
+                rows={data}
                 disableSelectionOnClick
                 columns={columns}
                 pageSize={8}
