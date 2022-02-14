@@ -11,6 +11,8 @@ import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import NewMenu from "./pages/newMenu/NewMenu";
 import MenuDetail from "./pages/menuDetail/MenuDetail";
+import IngredList from "./pages/ingredList/IngredList";
+import NewIngred from "./pages/newIngred/NewIngred";
 
 function App() {
   return (
@@ -25,6 +27,17 @@ function App() {
           <Route path="/users">
             <UserList />
           </Route>
+          
+          <Route path="/newIngred">
+            <NewIngred />
+          </Route>
+
+          <Route path="/ingreds">
+            <IngredList />
+          </Route>
+
+
+
           <Route path="/user/:userId">
             <User />
           </Route>

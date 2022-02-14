@@ -7,14 +7,19 @@ import {
   Storefront,
   AttachMoney,
   BarChart,
+  // AppRegistration,
   MailOutline,
   DynamicFeed,
   ChatBubbleOutline,
   WorkOutline,
   Report,
+  // Blender,
   // PeopleOutlineIcon,
 
 } from "@material-ui/icons";
+
+// import AppRegistration from '@material-ui/icons/AppRegistration';
+// import BlenderIcon from '@mui/icons-material/Blender';
 // import GroupsIcon from '@mui/icons-material/Groups';
 // import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import { Link } from "react-router-dom";
@@ -45,7 +50,7 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <Link to="/users" className="link">
+            <Link to="/ingreds" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
                 原料管理
