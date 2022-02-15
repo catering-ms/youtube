@@ -35,6 +35,7 @@ const fetchAvailableIngredList = async (menuId, ingredForm) => {
 // 新增项目
 const addItem = async (menu_id, lq, sd, pd, gs) => {
 try {
+    console.log("gs--->", gs)
     // 打包数据为json
     const obj = {
     "lq": lq,
@@ -158,9 +159,13 @@ export default function MenuDetail(props) {
         lq,
         sd,
         pd,
-        sd
+        gs
         )
+        refreshPage()
       };
+    const refreshPage = (e) => {
+        // window.location.reload(false);
+    };
 
     //   配料表定义
     const columns = [
