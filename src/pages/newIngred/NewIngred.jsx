@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import "./NewIngred.css";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
-
-
+import DiscreteSliderMarks from "../../components/slider/slider"
 // 动效
 const animatedComponents = makeAnimated();
 // 获取api地址配置
@@ -183,15 +182,17 @@ class NewIngred extends Component {
         </div>
         <div className="addProductItem">
           <label>规格</label>
-          <input 
-            type="text" 
-            placeholder="500ML/¥12.0" 
-            value={this.state.unit}
-            onChange={this.handleIngredUnit}
-          />
+          <select name="active" id="active" onChange={this.handleIngredForm}>
+            <option value="l">克</option>
+            <option value="s">毫升</option>
+            <option value="g">勺</option>
+            <option value="p">斤</option>
+          </select>
         </div>
+
+
         <div className="addProductItem">
-          <label>份量/价格</label>
+          <label>价格</label>
           <input 
             type="text" 
             placeholder="¥1.00" 
@@ -199,32 +200,10 @@ class NewIngred extends Component {
             onChange={this.handleIngredUnitPrice}
           />
         </div>
-        {/* <div className="addProductItem">
-          <label>菜品类型</label>
-          <div className="newUserGender">
-            <input 
-              type="radio" 
-              name="gender" 
-              id="male" 
-              value="a"
-              value={this.state.name}
-              onChange={this.handleMenuName} 
-            />
-            <label for="male">普通菜</label>
-            <input type="radio" name="gender" id="female" value="b" onChange={this.handleMenuCategory}/>
-            <label for="female">套餐</label>
-            <input type="radio" name="gender" id="other" value="c" onChange={this.handleMenuCategory}/>
-            <label for="other">线下临时菜</label>
-            <input type="radio" name="gender" id="other" value="d" onChange={this.handleMenuCategory}/>
-            <label for="other">线下打包盒</label>
-            <input type="radio" name="gender" id="other" value="e" onChange={this.handleMenuCategory}/>
-            <label for="other">时价菜</label>
-            <input type="radio" name="gender" id="other" value="f" onChange={this.handleMenuCategory}/>
-            <label for="other">线下临时套餐</label>
-            <input type="radio" name="gender" id="other" value="g" onChange={this.handleMenuCategory}/>
-            <label for="other">打包袋</label>
-          </div>
-        </div> */}
+        <div className="addProductItem">
+          <label>配料份量</label>
+          <DiscreteSliderMarks />
+        </div>
         <div className="addProductItem">
           <label>配料状态</label>
           <select name="active" id="active" onChange={this.handleIngredStatus}>
