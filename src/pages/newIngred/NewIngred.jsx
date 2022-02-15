@@ -9,7 +9,7 @@ const animatedComponents = makeAnimated();
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
   // 新增项目
-  const addItem = async (name, unit, unit_price, category, status, serving_size, expire) => {
+  const addItem = async (name, unit, unit_price, category, status, serving_size, expire, form) => {
     try {
       // 打包数据为json
       const obj = {
@@ -19,7 +19,8 @@ const apiHost = process.env.REACT_APP_API_HOST
         "category": category,
         "status": status, 
         "serving_size": serving_size,
-        "expire": expire
+        "expire": expire,
+        "form": form
 
       }
       const payload = JSON.stringify(obj)
@@ -67,6 +68,7 @@ class NewIngred extends Component {
       status: "",
       serving_size: "",
       expire: "",
+      form: ""
 
       // TODO 后续改为api获取
       // colourOptions: [
@@ -112,6 +114,14 @@ class NewIngred extends Component {
   }
   
   // 赋值状态
+  handleIngredForm = (e) => {
+    this.setState({
+      form: e.target.value
+    })
+  }
+  
+
+  // 赋值状态
   handleIngredServingSize = (e) => {
     this.setState({
       serving_size: e.target.value
@@ -137,6 +147,7 @@ class NewIngred extends Component {
       this.state.status,
       this.state.serving_size,
       this.state.expire,
+      this.state.form
       )
   }
 
@@ -162,23 +173,14 @@ class NewIngred extends Component {
            />
         </div>
         <div className="addProductItem">
-          <label>类型</label>
-          <input 
-            type="text" 
-            placeholder="液体类型" 
-            value={this.state.category}
-            onChange={this.handleIngredCategory}
-          />
+          <label>配料形态</label>
+          <select name="active" id="active" onChange={this.handleIngredForm}>
+            <option value="l">液态</option>
+            <option value="s">固态</option>
+            <option value="g">气态</option>
+            <option value="p">粉末</option>
+          </select>
         </div>
-        {/* <div className="addProductItem">
-          <label>来源</label>
-          <input 
-            type="text" 
-            placeholder="柳州粉" 
-            value={this.state.brand}
-            onChange={this.handleIngredUnitPrice}
-          />
-        </div> */}
         <div className="addProductItem">
           <label>规格</label>
           <input 
@@ -225,7 +227,7 @@ class NewIngred extends Component {
         </div> */}
         <div className="addProductItem">
           <label>配料状态</label>
-          <select name="active" id="active" onChange={this.handleMenuStatus}>
+          <select name="active" id="active" onChange={this.handleIngredStatus}>
             <option value="yes">启用</option>
             <option value="no">禁用</option>
           </select>
