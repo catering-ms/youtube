@@ -3,12 +3,15 @@ import "./NewIngred.css";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import DiscreteSliderMarks from "../../components/slider/slider"
+import SuccessAlert from "../../components/alert/success"
+
 // 动效
 const animatedComponents = makeAnimated();
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
   // 新增项目
-  const addItem = async (name, unit, unit_price, category, status, serving_size, expire, form) => {
+  const addItem = async (name, unit, unit_price, category, status, 
+    serving_size, expire, form, priceValue) => {
     try {
       // 打包数据为json
       const obj = {
@@ -19,7 +22,8 @@ const apiHost = process.env.REACT_APP_API_HOST
         "status": status, 
         "serving_size": serving_size,
         "expire": expire,
-        "form": form
+        "form": form,
+        "priceValue": priceValue
 
       }
       const payload = JSON.stringify(obj)
@@ -48,6 +52,9 @@ const apiHost = process.env.REACT_APP_API_HOST
   
       const data =  await res.json()
       console.log("return -->", data)
+      // this.state.addStatus = "success"
+      // this.setState({addStatus: "success"})
+
     } catch (err) {
       console.log("err", err)
       alert(err.message);
@@ -67,7 +74,9 @@ class NewIngred extends Component {
       status: "",
       serving_size: "",
       expire: "",
-      form: ""
+      form: "",
+      priceValue: 0.0,
+      addStatus: ""
 
       // TODO 后续改为api获取
       // colourOptions: [
@@ -133,7 +142,12 @@ class NewIngred extends Component {
       expire: e.target.value
     })
   }
-  
+  handlePriceChange = (e) => {
+    this.setState({
+      priceValue: e.target.value
+    })
+  }
+
   // 提交数据
   onSubmit = (e) => {
     e.preventDefault()
@@ -146,13 +160,19 @@ class NewIngred extends Component {
       this.state.status,
       this.state.serving_size,
       this.state.expire,
-      this.state.form
+      this.state.form,
+      this.state.priceValue
       )
+    this.setState({
+      addStatus: "success"
+    })
   }
 
   render () {
     return (
     <div className="newProduct">
+      {this.state.addStatus=="success"?<SuccessAlert/>:null}
+
       <h1 className="addProductTitle">新增配料</h1>
       <form className="addProductForm" onSubmit={this.onSubmit}>
         <div className="addProductItem">
@@ -169,6 +189,7 @@ class NewIngred extends Component {
             placeholder="料酒"
             value={this.state.name}
             onChange={this.handleIngredName}
+            required
            />
         </div>
         <div className="addProductItem">
@@ -193,12 +214,20 @@ class NewIngred extends Component {
 
         <div className="addProductItem">
           <label>价格</label>
-          <input 
+          {/* <input 
             type="text" 
             placeholder="¥1.00" 
             value={this.state.unit_price}
             onChange={this.handleIngredUnitPrice}
-          />
+          /> */}
+              <input 
+              id="typeinp" 
+              type="range" 
+              min="0" max="20" 
+              value={this.state.priceValue} 
+              onChange={this.handlePriceChange}
+              step="0.5"/>
+              <output>{this.state.priceValue} </output>
         </div>
         <div className="addProductItem">
           <label>配料份量</label>

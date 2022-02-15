@@ -26,6 +26,7 @@ function valuetext(value) {
 }
 
 export default function DiscreteSliderMarks() {
+
   return (
     <Box sx={{ width: 300 }}>
       <Slider

@@ -152,7 +152,6 @@ export default function MenuDetail(props) {
         setGs(e)
     };
     const onSubmit = (e) => {
-        console.log("submit now--->")
         e.preventDefault()
         addItem(
         props.menuId,
@@ -199,9 +198,9 @@ export default function MenuDetail(props) {
     <div className="product">
       <div className="productTitleContainer">
         <h1 className="productTitle">菜品详情</h1>
-        <Link to="/newproduct">
-          <button className="productAddButton">Create</button>
-        </Link>
+        {/* <Link to="/newproduct">
+          <button className="productAddButton">创建新菜品</button>
+        </Link> */}
       </div>
       <div className="productTop">
           <div className="productTopLeft">
@@ -256,7 +255,7 @@ export default function MenuDetail(props) {
                       </label>
                       <input type="file" id="file" style={{display:"none"}} />
                   </div>
-                  <button className="productButton">Update</button>
+                  <button className="productButton">更新图片</button>
               </div>
 
               <div className="productFormLeft">
