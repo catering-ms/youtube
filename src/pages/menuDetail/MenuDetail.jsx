@@ -25,20 +25,22 @@ const fetchMenuDetail = async (id) => {
   }
 
 // Fetch ingred list
-const fetchAvailableIngredList = async () => {
-    const res = await fetch(apiHost + '/api/v1/ingred/avaiable')
+const fetchAvailableIngredList = async (menuId, ingredForm) => {
+    const res = await fetch(apiHost + '/api/v1/ingred/avaiable/' + menuId + "/" + ingredForm)
     const data = await res.json()
     console.log("data===>", data)
     return data
   }
 
 // 新增项目
-const addItem = async (menu_id, liquid, solid) => {
+const addItem = async (menu_id, lq, sd, pd, gs) => {
 try {
     // 打包数据为json
     const obj = {
-    "liquid": liquid,
-    "solid": solid,
+    "lq": lq,
+    "sd": sd,
+    "pd": pd,
+    "gs": gs,
     "menu_id": menu_id
     }
     const payload = JSON.stringify(obj)
@@ -78,10 +80,23 @@ export default function MenuDetail(props) {
     console.log("props", props)
     const [usingIngred, setUsingIngred] = useState([]);
     const [ingredImgUrl, setIngredImgUrl] = useState([]);
-    const [availableIngred, setAvailableIngred] = useState([]);
+    // 液态
+    const [lAvailableIngred, setLAvailableIngred] = useState([]);
+    // 气态 
+    const [gAvailableIngred, setGAvailableIngred] = useState([]);
+    // 固态 
+    const [sAvailableIngred, setSAvailableIngred] = useState([]);
+    // 粉末
+    const [pAvailableIngred, setPAvailableIngred] = useState([]);
 
-    const [liquid, setLiquid] = useState([]);
-    const [solid, setSolid] = useState([]);
+    // 添加液态
+    const [lq, setLq] = useState([]);
+    // 添加固态
+    const [sd, setSd] = useState([]);
+    // 添加气态
+    const [gs, setGs] = useState([]);
+    // 添加粉末
+    const [pd, setPd] = useState([]);
 
     useEffect(() => {
         const getUsingIngred = async () => {
@@ -92,8 +107,21 @@ export default function MenuDetail(props) {
         getUsingIngred()
 
         const getIngredAvailableList = async () => {
-            const tasksFromServer = await fetchAvailableIngredList()
-            setAvailableIngred(tasksFromServer)
+            // 获取粉末
+            const p = await fetchAvailableIngredList(props.menuId, "p")
+            setPAvailableIngred(p)
+
+            // 获取固态
+            const s = await fetchAvailableIngredList(props.menuId, "s")
+            setSAvailableIngred(s)
+
+            // 获取液态
+            const l = await fetchAvailableIngredList(props.menuId, "l")
+            setLAvailableIngred(l)
+
+            // 获取气态
+            const g = await fetchAvailableIngredList(props.menuId, "g")
+            setGAvailableIngred(g)
         }
 
         getIngredAvailableList()
@@ -104,28 +132,33 @@ export default function MenuDetail(props) {
         // deleteTask(id) // 执行删除动作
         };
     // 勾选液体配料
-    const handleAddLiquid = (e) => {
-        // this.setState({
-        // liquid: e.target.value
-        // })
+    const handleAddLq = (e) => {
         console.log("e --->", e)
-        // setLiquid(e.target.value)
+        setLq(e)
     };
     // 勾选固体配料
-    const handleAddSolid = (e) => {
-        // setState({
-        // solid: e.target.value
-        // })
-        setSolid(e)
+    const handleAddSd = (e) => {
+        setSd(e)
     };
 
+    // 勾选粉末
+    const handleAddPd = (e) => {
+        setPd(e)
+    };
+
+    // 勾选气态
+    const handleAddGs = (e) => {
+        setGs(e)
+    };
     const onSubmit = (e) => {
         console.log("submit now--->")
         e.preventDefault()
         addItem(
         props.menuId,
-        liquid,
-        solid
+        lq,
+        sd,
+        pd,
+        sd
         )
       };
 
@@ -228,9 +261,9 @@ export default function MenuDetail(props) {
                     components={animatedComponents}
                     // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
                     isMulti
-                    options={availableIngred}
-                    value={solid}
-                    onChange={handleAddSolid}
+                    options={sAvailableIngred}
+                    value={sd}
+                    onChange={handleAddSd}
                 />
             </div>
             <div className="productFormLeft">
@@ -240,29 +273,38 @@ export default function MenuDetail(props) {
                     components={animatedComponents}
                     // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
                     isMulti
-                    options={availableIngred}
-                    value={liquid}
-                    onChange={handleAddLiquid}
+                    options={lAvailableIngred}
+                    value={lq}
+                    onChange={handleAddLq}
                 />
             </div>
-
-            {/* <SearchInput className="search-input"  />  */}
-                {/* {filteredEmails.map(email => {
-                return (
-                    <div className="mail" key={email.id}>
-                    <div className="from">{email.user.name}</div>
-                    <div className="subject">{email.subject}</div>
-                    </div>
-                )
-                })} */}
+            <div className="productFormLeft">
+                <label>粉末配料</label>
+                <Select 
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
+                    isMulti
+                    options={pAvailableIngred}
+                    value={pd}
+                    onChange={handleAddPd}
+                />
+            </div>
+            <div className="productFormLeft">
+                <label>气态配料</label>
+                <Select 
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    // defaultValue={[this.state.colourOptions[0], this.state.colourOptions[1]]}
+                    isMulti
+                    options={gAvailableIngred}
+                    value={gs}
+                    onChange={handleAddGs}
+                />
+            </div>
             <input type='submit' value='添加' className='productButton'/>
           </form>
       </div>
-      {/* <div className="productBottom"> */}
-        {/* <div className="productFormLeft">
-                  <label>菜品配料表</label>
-        </div> */}
-        {/* </div> */}
         <DataGrid
                 rows={usingIngred}
                 disableSelectionOnClick
