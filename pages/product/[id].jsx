@@ -9,7 +9,7 @@ import { addProduct } from "../../redux/cartSlice";
 const apiHost = process.env.REACT_APP_API_HOST
 
 const Product = ({ pizza }) => {
-  const [price, setPrice] = useState(pizza.prices[0]);
+  const [price, setPrice] = useState(pizza.price_list[0]);
   const [size, setSize] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [extras, setExtras] = useState([]);
@@ -21,7 +21,7 @@ const Product = ({ pizza }) => {
   };
 
   const handleSize = (sizeIndex) => {
-    const difference = pizza.prices[sizeIndex] - pizza.prices[size];
+    const difference = pizza.price_list[sizeIndex] - pizza.price_list[size];
     setSize(sizeIndex);
     changePrice(difference);
   };
@@ -34,7 +34,7 @@ const Product = ({ pizza }) => {
       setExtras((prev) => [...prev, option]);
     } else {
       changePrice(-option.price);
-      setExtras(extras.filter((extra) => extra._id !== option._id));
+      setExtras(extras.filter((extra) => extra.id !== option.id));
     }
   };
 
@@ -46,11 +46,11 @@ const Product = ({ pizza }) => {
     <div className={styles.container}>
       <div className={styles.left}>
         <div className={styles.imgContainer}>
-          <Image src={pizza.img}  layout="fill" width="50" heigth="60" alt="" />
+          <Image src={pizza.img_url}  layout="fill" width="50" heigth="60" alt="" />
         </div>
       </div>
       <div className={styles.right}>
-        <h1 className={styles.title}>{pizza.title}</h1>
+        <h1 className={styles.title}>{pizza.name}</h1>
         <span className={styles.price}>￥{price}</span>
         <p className={styles.desc}>{pizza.desc}</p>
         <h3 className={styles.choose}>选择分量</h3>
@@ -91,7 +91,7 @@ const Product = ({ pizza }) => {
             className={styles.quantity}
           />
           <button className={styles.button} onClick={handleClick}>
-            Add to Cart
+            添加到购物车
           </button>
         </div>
       </div>

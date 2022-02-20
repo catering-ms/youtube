@@ -35,7 +35,7 @@ const Cart = () => {
       console.log("post done---->", apiHost, res )
       if (res.status === 201) {
         dispatch(reset());
-        router.push(`/orders/${res.data._id}`);
+        router.push(`/orders/${res.data.id}`);
       }
     } catch (err) {
       console.log(err);
@@ -119,7 +119,7 @@ const Cart = () => {
                 <td>
                   <div className={styles.imgContainer}>
                     <Image
-                      src={product.img}
+                      src={product.img_url}
                       layout="fill"
                       objectFit="cover"
                       alt=""
@@ -137,7 +137,7 @@ const Cart = () => {
                   </span>
                 </td>
                 <td>
-                  <span className={styles.price}>${product.price}</span>
+                  <span className={styles.price}>￥{product.price}</span>
                 </td>
                 <td>
                   <span className={styles.quantity}>{product.quantity}</span>

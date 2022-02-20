@@ -32,15 +32,17 @@ export const getServerSideProps = async (ctx) => {
   const myCookie = ctx.req?.cookies || "";
   let admin = false;
 
-  if (myCookie.token === process.env.TOKEN) {
-    admin = true;
-  }
+  // if (myCookie.token === process.env.TOKEN) {
+  //   admin = true;
+  // }
 
   const res = await axios.get(apiHost + "/api/v1/product/all");
+
+  console.log("---->", res.data)
   return {
     props: {
       pizzaList: res.data,
-      // admin,
+      admin,
     },
   };
 };
