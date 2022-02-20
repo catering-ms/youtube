@@ -12,6 +12,11 @@ import { useRouter } from "next/router";
 import { reset } from "../redux/cartSlice";
 import OrderDetail from "../components/OrderDetail";
 
+// 获取api地址配置
+// const apiHost = process.env.REACT_APP_API_HOST;
+const apiHost = "http://127.0.0.1:5000"
+
+
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [open, setOpen] = useState(false);
@@ -23,8 +28,11 @@ const Cart = () => {
   const router = useRouter();
 
   const createOrder = async (data) => {
+    console.log("apiHost", process.env.REACT_APP_API_HOST)
     try {
-      const res = await axios.post("http://localhost:3000/api/orders", data);
+      console.log("ready post ---->", apiHost)
+      const res = await axios.post(apiHost + "/api/v1/order/new", data);
+      console.log("post done---->", apiHost, res )
       if (res.status === 201) {
         dispatch(reset());
         router.push(`/orders/${res.data._id}`);

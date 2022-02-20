@@ -13,6 +13,7 @@ const Product = ({ pizza }) => {
   const [size, setSize] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [extras, setExtras] = useState([]);
+  // ? 学习DISPATCH 的使用
   const dispatch = useDispatch();
 
   const changePrice = (number) => {
