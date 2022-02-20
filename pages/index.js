@@ -8,6 +8,9 @@ import Featured from "../components/Featured";
 import PizzaList from "../components/PizzaList";
 import styles from "../styles/Home.module.css";
 
+// 获取api地址配置
+const apiHost = process.env.REACT_APP_API_HOST
+
 export default function Home({ pizzaList, admin }) {
   const [close, setClose] = useState(true);
   return (
@@ -33,28 +36,10 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-
-  const products = [
-    {
-      "_id": 11,
-      "title": "a",
-      "desc": "asdasdsa",
-      "img": "https://www.zhifure.com/upload/images/2018/9/17113536844.jpg",
-      "prices": [12, 23]
-    },
-    {
-      "_id": 12,
-      "title": "a",
-      "desc": "asdasdsa",
-      "img": "https://www.zhifure.com/upload/images/2018/9/17113536844.jpg",
-      "prices": [12, 15]
-    }
-  ]
-
-  // const res = await axios.get("http://localhost:3000/api/products");
+  const res = await axios.get(apiHost + "/api/v1/product/all");
   return {
     props: {
-      pizzaList: products,
+      pizzaList: res.data,
       // admin,
     },
   };
