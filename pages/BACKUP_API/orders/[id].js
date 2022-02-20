@@ -16,7 +16,7 @@ const handler = async (req, res) => {
 
       // const orders = await Order.find();
       const order = {
-          "order_id": "10001",
+          "_id": "10001",
           "customer": "拧MOON",
           "address": "苏州，乾隆街道10001",
           "total": 120,

@@ -5,6 +5,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/cartSlice";
 
+// 获取api地址配置
+const apiHost = process.env.REACT_APP_API_HOST
+
 const Product = ({ pizza }) => {
   const [price, setPrice] = useState(pizza.prices[0]);
   const [size, setSize] = useState(0);
@@ -42,7 +45,7 @@ const Product = ({ pizza }) => {
     <div className={styles.container}>
       <div className={styles.left}>
         <div className={styles.imgContainer}>
-          <Image src={pizza.img} objectFit="contain" layout="fill" alt="" />
+          <Image src={pizza.img}  layout="fill" width="50" heigth="60" alt="" />
         </div>
       </div>
       <div className={styles.right}>
@@ -97,11 +100,11 @@ const Product = ({ pizza }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const res = await axios.get(
-    `http://localhost:3000/api/products/${params.id}`
+    apiHost +`/api/v1/product/detail/${params.id}`
   );
   return {
     props: {
-      pizza: res.data,
+      pizza:  res.data,
     },
   };
 };

@@ -1,5 +1,5 @@
 module.exports = {
   images:{
-    domains:["media.istockphoto.com"]
+    domains:["www.zhifure.com"]
   }
 }

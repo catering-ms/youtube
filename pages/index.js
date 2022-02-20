@@ -33,11 +33,29 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-  const res = await axios.get("http://localhost:3000/api/products");
+
+  const products = [
+    {
+      "_id": 11,
+      "title": "a",
+      "desc": "asdasdsa",
+      "img": "https://www.zhifure.com/upload/images/2018/9/17113536844.jpg",
+      "prices": [12, 23]
+    },
+    {
+      "_id": 12,
+      "title": "a",
+      "desc": "asdasdsa",
+      "img": "https://www.zhifure.com/upload/images/2018/9/17113536844.jpg",
+      "prices": [12, 15]
+    }
+  ]
+
+  // const res = await axios.get("http://localhost:3000/api/products");
   return {
     props: {
-      pizzaList: res.data,
-      admin,
+      pizzaList: products,
+      // admin,
     },
   };
 };

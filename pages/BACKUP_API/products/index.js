@@ -25,7 +25,6 @@ export default async function handler(req, res) {
           "img": "https://media.istockphoto.com/photos/delicious-vegetarian-pizza-on-white-picture-id1192094401?k=20&m=1192094401&s=612x612&w=0&h=jesvXuPyvqM36GQ5QEvJrL3QZjK6YKsziUUF3ZbW0gw=",
           "prices": [12, 15]
         }
-
       ]
 
       res.status(200).json(products);

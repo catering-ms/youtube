@@ -15,6 +15,7 @@ export default async function handler(req, res) {
     try {
       // const product = await Product.findById(id);
       const product = {
+        "_id": 11,
         "title": "a",
         "desc": "asdasdsa",
         "img": "https://media.istockphoto.com/photos/delicious-vegetarian-pizza-on-white-picture-id1192094401?k=20&m=1192094401&s=612x612&w=0&h=jesvXuPyvqM36GQ5QEvJrL3QZjK6YKsziUUF3ZbW0gw=",
