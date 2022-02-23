@@ -31,6 +31,9 @@ const Cart = ({cartList, quantity, total}) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  useEffect(() => {
+    dispatch(fetchHisCart({cartList, quantity, total}))
+  }, [dispatch]);
   // console.log("carts --->", props.cart)
 
   const createOrder = async (data) => {
@@ -106,15 +109,15 @@ const Cart = ({cartList, quantity, total}) => {
   };
 
 
-  const handleClick = () => {
-    // 判断是否已经存在缓存TOKEN，用于标识唯一浏览器
-    // if 存在，使用已经存在的
-    // else 生成一个随机TOKEN
-    // 用于捆绑cart 避免用户退出或者刷新后没有记录
-    // 
-    console.log("cartList --->", cartList)
-    dispatch(fetchHisCart({cartList, quantity, total}))
-  };
+  // const handleClick = () => {
+  //   // 判断是否已经存在缓存TOKEN，用于标识唯一浏览器
+  //   // if 存在，使用已经存在的
+  //   // else 生成一个随机TOKEN
+  //   // 用于捆绑cart 避免用户退出或者刷新后没有记录
+  //   // 
+  //   console.log("cartList --->", cartList)
+  //   dispatch(fetchHisCart({cartList, quantity, total}))
+  // };
 
   return (
     <div className={styles.container}>
@@ -209,9 +212,9 @@ const Cart = ({cartList, quantity, total}) => {
         </div>
       </div>
       {cash && <OrderDetail total={cart.total} createOrder={createOrder} />}
-      <button className={styles.button} onClick={handleClick}>
+      {/* <button className={styles.button} onClick={handleClick}>
       加载历史购物车
-          </button>
+          </button> */}
     </div>
   );
 };

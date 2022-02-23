@@ -16,10 +16,6 @@ const Product = ({ pizza }) => {
   // ? 学习DISPATCH 的使用
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(addProduct({...pizza, extras, price, quantity}));
-  }, [dispatch]);
-
 
   const changePrice = (number) => {
     setPrice(price + number);
