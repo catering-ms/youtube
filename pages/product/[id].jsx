@@ -16,6 +16,11 @@ const Product = ({ pizza }) => {
   // ? 学习DISPATCH 的使用
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(addProduct({...pizza, extras, price, quantity}));
+  }, [dispatch]);
+
+
   const changePrice = (number) => {
     setPrice(price + number);
   };
@@ -39,6 +44,11 @@ const Product = ({ pizza }) => {
   };
 
   const handleClick = () => {
+    // 判断是否已经存在缓存TOKEN，用于标识唯一浏览器
+    // if 存在，使用已经存在的
+    // else 生成一个随机TOKEN
+    // 用于捆绑cart 避免用户退出或者刷新后没有记录
+    // 
     dispatch(addProduct({...pizza, extras, price, quantity}));
   };
 

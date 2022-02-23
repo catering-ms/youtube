@@ -11,14 +11,18 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { reset } from "../redux/cartSlice";
 import OrderDetail from "../components/OrderDetail";
+import { fetchHisCart } from "../redux/cartSlice";
+
 
 // 获取api地址配置
 // const apiHost = process.env.REACT_APP_API_HOST;
 const apiHost = "http://127.0.0.1:5000"
 
 
-const Cart = () => {
+const Cart = ({cartList, quantity, total}) => {
+
   const cart = useSelector((state) => state.cart);
+  // const carts = useSelector((state) => state.carts);
   const [open, setOpen] = useState(false);
   const [cash, setCash] = useState(false);
   const amount = cart.total;
@@ -26,6 +30,8 @@ const Cart = () => {
   const style = { layout: "vertical" };
   const dispatch = useDispatch();
   const router = useRouter();
+
+  // console.log("carts --->", props.cart)
 
   const createOrder = async (data) => {
     console.log("apiHost", process.env.REACT_APP_API_HOST)
@@ -99,6 +105,17 @@ const Cart = () => {
     );
   };
 
+
+  const handleClick = () => {
+    // 判断是否已经存在缓存TOKEN，用于标识唯一浏览器
+    // if 存在，使用已经存在的
+    // else 生成一个随机TOKEN
+    // 用于捆绑cart 避免用户退出或者刷新后没有记录
+    // 
+    console.log("cartList --->", cartList)
+    dispatch(fetchHisCart({cartList, quantity, total}))
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
@@ -127,14 +144,14 @@ const Cart = () => {
                   </div>
                 </td>
                 <td>
-                  <span className={styles.name}>{product.title}</span>
+                  <span className={styles.title}>{product.name}</span>
                 </td>
                 <td>
-                  <span className={styles.extras}>
+                  {/* <span className={styles.extras}>
                     {product.extras.map((extra) => (
                       <span key={extra._id}>{extra.text}, </span>
                     ))}
-                  </span>
+                  </span> */}
                 </td>
                 <td>
                   <span className={styles.price}>￥{product.price}</span>
@@ -170,9 +187,9 @@ const Cart = () => {
                 className={styles.payButton}
                 onClick={() => setCash(true)}
               >
-                CASH ON DELIVERY
+                结算
               </button>
-              <PayPalScriptProvider
+              {/* <PayPalScriptProvider
                 options={{
                   "client-id":
                     "ATTL8fDJKfGzXNH4VVuDy1qW4_Jm8S0sqmnUTeYtWpqxUJLnXIn90V8YIGDg-SNPaB70Hg4mko_fde4-",
@@ -182,18 +199,34 @@ const Cart = () => {
                 }}
               >
                 <ButtonWrapper currency={currency} showSpinner={false} />
-              </PayPalScriptProvider>
+              </PayPalScriptProvider> */}
             </div>
           ) : (
             <button onClick={() => setOpen(true)} className={styles.button}>
-              CHECKOUT NOW!
+              现在支付
             </button>
           )}
         </div>
       </div>
       {cash && <OrderDetail total={cart.total} createOrder={createOrder} />}
+      <button className={styles.button} onClick={handleClick}>
+      加载历史购物车
+          </button>
     </div>
   );
+};
+
+export const getServerSideProps = async ({ params }) => {
+  const res = await axios.get(
+    apiHost +`/api/v1/cart/all`
+  );
+  return {
+    props: {
+      cartList:  res.data.products,
+      quantity: res.data.quantity,
+      total: res.data.total
+    },
+  };
 };
 
 export default Cart;
