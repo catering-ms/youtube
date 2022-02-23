@@ -5,8 +5,54 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/cartSlice";
 
+
+// const animatedComponents = makeAnimated();
 // 获取api地址配置
-const apiHost = process.env.REACT_APP_API_HOST
+// const apiHost = process.env.REACT_APP_API_HOST
+const apiHost = "http://127.0.0.1:5000"
+  // 新增项目
+  const addItem = async (pizza_list, extras, price, quantity) => {
+    try {
+      // 打包数据为json
+      // pizza, extras, price, quantity
+      console.log("addItem---->", pizza_list, extras, price, quantity)
+      const obj = {
+        "pizza_list": pizza_list,
+        "extras": extras,
+        "price": price,
+        "quantity": quantity
+      }
+      const payload = JSON.stringify(obj)
+      const res = await fetch(apiHost + '/api/v1/cart/new',
+        {
+        mode: 'cors',
+        method: 'POST',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin', // you need to add this line
+        body: payload,
+      })
+      if (!res.ok) {
+
+        if (res.status === 409) {
+          const message = `菜单名称重复`;
+          throw new Error(message);
+        }
+        const message = `An error has occured: ${res.status} - ${res.statusText}`;
+        throw new Error(message);
+      }
+  
+      const data =  await res.json()
+      console.log("return -->", data)
+    } catch (err) {
+      console.log("err", err)
+      alert(err.message);
+    }
+  }
+
 
 const Product = ({ pizza }) => {
   const [price, setPrice] = useState(pizza.price_list[0]);
@@ -46,6 +92,9 @@ const Product = ({ pizza }) => {
     // 用于捆绑cart 避免用户退出或者刷新后没有记录
     // 
     dispatch(addProduct({...pizza, extras, price, quantity}));
+    // commit to server
+    console.log("=======>", pizza)
+    addItem(pizza, extras, price, quantity)
   };
 
   return (
