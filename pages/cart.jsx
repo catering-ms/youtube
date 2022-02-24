@@ -150,11 +150,11 @@ const Cart = ({cartList, quantity, total}) => {
                   <span className={styles.title}>{product.name}</span>
                 </td>
                 <td>
-                  {/* <span className={styles.extras}>
+                  <span className={styles.extras}>
                     {product.extras.map((extra) => (
                       <span key={extra._id}>{extra.text}, </span>
                     ))}
-                  </span> */}
+                  </span>
                 </td>
                 <td>
                   <span className={styles.price}>￥{product.price}</span>
@@ -164,7 +164,7 @@ const Cart = ({cartList, quantity, total}) => {
                 </td>
                 <td>
                   <span className={styles.total}>
-                    ${product.price * product.quantity}
+                    ￥{product.price * product.quantity}
                   </span>
                 </td>
               </tr>
@@ -176,13 +176,13 @@ const Cart = ({cartList, quantity, total}) => {
         <div className={styles.wrapper}>
           <h2 className={styles.title}>CART TOTAL</h2>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Subtotal:</b>${cart.total}
+            <b className={styles.totalTextTitle}>Subtotal:</b>￥{cart.total}
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Discount:</b>$0.00
+            <b className={styles.totalTextTitle}>Discount:</b>￥0.00
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Total:</b>${cart.total}
+            <b className={styles.totalTextTitle}>Total:</b>￥{cart.total}
           </div>
           {open ? (
             <div className={styles.paymentMethods}>

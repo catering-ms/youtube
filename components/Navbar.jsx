@@ -1,7 +1,11 @@
 import Image from "next/image";
 import styles from "../styles/Navbar.module.css";
 import { useSelector } from "react-redux";
+// import axios from "axios";
 import Link from "next/link";
+
+// 获取api地址配置
+const apiHost = process.env.REACT_APP_API_HOST
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
@@ -40,5 +44,13 @@ const Navbar = () => {
     </div>
   );
 };
+
+// export const getServerSideProps = async () => {
+//   const res = await axios.get(apiHost + `/api/v1/cart/quantity`);
+//   console.log(res)
+//   return {
+//     props: { quantity: res.data },
+//   };
+// };
 
 export default Navbar;
