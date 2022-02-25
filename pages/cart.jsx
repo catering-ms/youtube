@@ -11,7 +11,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { reset } from "../redux/cartSlice";
 import OrderDetail from "../components/OrderDetail";
-import { fetchHisCart } from "../redux/cartSlice";
+import { fetchCartCounter, fetchHisCart } from "../redux/cartSlice";
 
 
 // 获取api地址配置
@@ -32,6 +32,7 @@ const Cart = ({cartList, quantity, total}) => {
   const router = useRouter();
 
   useEffect(() => {
+    // 初始化购物车
     dispatch(fetchHisCart({cartList, quantity, total}))
   }, [dispatch]);
   // console.log("carts --->", props.cart)

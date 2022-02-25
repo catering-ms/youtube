@@ -72,6 +72,8 @@
 
   .trTitle {
     display: none;
+    align-items: center;
+    justify-content: center;
   }
 
   .tr {

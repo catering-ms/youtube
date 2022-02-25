@@ -1,13 +1,25 @@
 import Image from "next/image";
 import styles from "../styles/Navbar.module.css";
-import { useSelector } from "react-redux";
-// import axios from "axios";
+import { useSelector, useState} from "react-redux";
+import axios from "axios";
 import Link from "next/link";
+// import { useState, useEffect} from "react";
 
 // 获取api地址配置
 const apiHost = process.env.REACT_APP_API_HOST
 
-const Navbar = () => {
+const Navbar = (state) => {
+  // const [state, setState] = useState()
+  // setState(
+  //   {
+  //     quantity: 12
+  //   }
+  // )
+  // const [quantit, setQuantity] = useState();
+
+  // setQuantity({
+  //   quantit: 12
+  // })
   const quantity = useSelector((state) => state.cart.quantity);
   return (
     <div className={styles.container}>
@@ -25,12 +37,12 @@ const Navbar = () => {
           <Link href="/" passHref>
             <li className={styles.listItem}>Homepage</li>
           </Link>
-          <li className={styles.listItem}>Products</li>
-          <li className={styles.listItem}>Menu</li>
+          {/* <li className={styles.listItem}>Products</li>
+          <li className={styles.listItem}>Menu</li> */}
           <Image src="/img/logo.png" alt="" width="160px" height="69px" />
-          <li className={styles.listItem}>Events</li>
-          <li className={styles.listItem}>Blog</li>
-          <li className={styles.listItem}>Contact</li>
+          {/* <li className={styles.listItem}>Events</li> */}
+          {/* <li className={styles.listItem}>Blog</li>
+          <li className={styles.listItem}>Contact</li> */}
         </ul>
       </div>
       <Link href="/cart" passHref>
@@ -45,12 +57,12 @@ const Navbar = () => {
   );
 };
 
-// export const getServerSideProps = async () => {
-//   const res = await axios.get(apiHost + `/api/v1/cart/quantity`);
-//   console.log(res)
-//   return {
-//     props: { quantity: res.data },
-//   };
-// };
+export const getServerSideProps = async () => {
+  const res = await axios.get(apiHost + `/api/v1/cart/quantity`);
+  console.log("+++++++++++++++++", res.data)
+  return {
+    props: { quantity: res.data },
+  };
+};
 
 export default Navbar;

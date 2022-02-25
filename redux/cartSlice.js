@@ -17,9 +17,14 @@ const cartSlice = createSlice({
     total: 0,
   },
   reducers: {
+    fetchCartCounter: (state, action) => {
+      if (state.quantity === 0)  {
+        state.quantity = action.payload.sumQuantity; // 获取用户购物车当前的商品数量
+      }
+    },
     fetchHisCart: (state, action) => {
       if (state.products.length === 0)  {
-        console.log("==========>", action.payload.cartList)
+        // console.log("==========>", action.payload.cartList)
         state.products = action.payload.cartList;
         state.quantity = action.payload.quantity; // TODO获取数据
         state.total = action.payload.total;
@@ -39,5 +44,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { fetchHisCart, addProduct, reset } = cartSlice.actions;
+export const { fetchCartCounter, fetchHisCart, addProduct, reset } = cartSlice.actions;
 export default cartSlice.reducer;
