@@ -27,6 +27,10 @@
   color: rgb(124, 108, 108);
 }
 
+.img {
+  border-radius: 10px;
+}
+
 .desc {
   text-align: center;
   color: #777;
