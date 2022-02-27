@@ -8,8 +8,7 @@ import { addProduct } from "../../redux/cartSlice";
 
 // const animatedComponents = makeAnimated();
 // 获取api地址配置
-// const apiHost = process.env.REACT_APP_API_HOST
-const apiHost = "http://127.0.0.1:5000"
+const apiHost = process.env.REACT_APP_API_HOST
   // 新增项目
   const addItem = async (product, extras, price, quantity) => {
     try {
