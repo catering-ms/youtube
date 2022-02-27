@@ -11,6 +11,7 @@ const PizzaCard = ({ pizza }) => {
       <h1 className={styles.title}>{pizza.name}</h1>
       {/* 默认在菜单列表中显示small size的 */}
       <span className={styles.price}>${pizza.price_list[0]}</span>
+      <span className={styles.sales}>{pizza.sales}人付款</span>
       <p className={styles.desc}>{pizza.desc}</p>
     </div>
   );
