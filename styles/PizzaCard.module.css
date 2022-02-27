@@ -12,13 +12,13 @@
 .title {
   font-size: 18px;
   font-weight: bold;
-  color: #eed918;
+  color: #161615;
 }
 
 .price {
   font-size: 18px;
   font-weight: bold;
-  color: #666;
+  color: rgb(248, 115, 27);
 }
 
 .sales {
