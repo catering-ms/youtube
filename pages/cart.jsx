@@ -16,7 +16,7 @@ import { fetchCartCounter, fetchHisCart } from "../redux/cartSlice";
 
 // 获取api地址配置
 // const apiHost = process.env.REACT_APP_API_HOST;
-const apiHost = "http://127.0.0.1:5000"
+const apiHost = "http://127.0.0.1:5001"
 
 
 const Cart = ({cartList, quantity, total}) => {
@@ -144,6 +144,7 @@ const Cart = ({cartList, quantity, total}) => {
                       layout="fill"
                       objectFit="cover"
                       alt=""
+                      className={styles.img}
                     />
                   </div>
                 </td>

@@ -17,6 +17,10 @@
   position: relative;
 }
 
+.img {
+  border-radius: 10px;
+}
+
 .table {
   width: 100%;
   border-spacing: 20px;

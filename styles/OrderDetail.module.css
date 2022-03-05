@@ -37,6 +37,10 @@
   margin-bottom: 10px;
 }
 
+.img {
+  border-radius: 10px;
+}
+
 .input {
   height: 40px;
 }

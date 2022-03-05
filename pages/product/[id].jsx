@@ -4,11 +4,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/cartSlice";
+import ColoredLine from "../../components/ColorLine";
 
 
 // const animatedComponents = makeAnimated();
 // 获取api地址配置
-const apiHost = process.env.REACT_APP_API_HOST
+// const apiHost = process.env.REACT_APP_API_HOST
+const apiHost = "http://127.0.0.1:5001"
   // 新增项目
   const addItem = async (product, extras, price, quantity) => {
     try {
@@ -16,7 +18,7 @@ const apiHost = process.env.REACT_APP_API_HOST
       // pizza, extras, price, quantity
       console.log("addItem---->", product, extras, price, quantity)
       const obj = {
-        "product_id": product.id, // 不信任前端传入的产品详情，只需要传ID
+        "product_id": product.product_id, // 不信任前端传入的产品详情，只需要传ID
         "extras": extras,
         "price": price,
         "quantity": quantity
@@ -27,6 +29,7 @@ const apiHost = process.env.REACT_APP_API_HOST
         mode: 'cors',
         method: 'POST',
         headers: {
+          "token": "token12345", // TODO 通过登陆获得
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -100,13 +103,14 @@ const Product = ({ pizza }) => {
     <div className={styles.container}>
       <div className={styles.left}>
         <div className={styles.imgContainer}>
-          <Image src={pizza.img_url}  layout="fill" width="50" heigth="60" alt="" />
+          <Image src={pizza.img_url}  layout="fill" width="50" heigth="60" alt="" className={styles.img}/>
         </div>
       </div>
       <div className={styles.right}>
         <h1 className={styles.title}>{pizza.name}</h1>
         <span className={styles.price}>￥{price}</span>
         <p className={styles.desc}>{pizza.desc}</p>
+        <ColoredLine/>
         <h3 className={styles.choose}>选择分量</h3>
         <div className={styles.sizes}>
           <div className={styles.size} onClick={() => handleSize(0)}>
@@ -122,7 +126,9 @@ const Product = ({ pizza }) => {
             <span className={styles.number}>大碗</span>
           </div>
         </div>
-        <h3 className={styles.choose}>选择额外的配料</h3>
+        {pizza.extraOptions.length ? (
+        <h3 className={styles.choose}>选择额外的配料</h3>): <div/>}
+        {pizza.extraOptions.length ? (
         <div className={styles.ingredients}>
           {pizza.extraOptions.map((option) => (
             <div className={styles.option} key={option._id}>
@@ -133,10 +139,12 @@ const Product = ({ pizza }) => {
                 className={styles.checkbox}
                 onChange={(e) => handleChange(e, option)}
               />
-              <label htmlFor="double">{option.text}</label>
+               <label htmlFor="double">{option.text}</label>
             </div>
           ))}
         </div>
+        ) : <div/>}
+  
         <div className={styles.add}>
           <input
             onChange={(e) => setQuantity(e.target.value)}
